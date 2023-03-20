@@ -1,5 +1,6 @@
 package com.software.blog.search.word.entity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import lombok.Getter;
@@ -13,11 +14,16 @@ public class SearchWord {
     @Id
     private Long id;
 
+    @Column(unique = true)
     private String word;
 
     private int searchCount;
 
     public SearchWord() {}
+
+    public SearchWord(String query) {
+        this(0L, query, 1);
+    }
 
     public SearchWord(long id, String word, int searchCount) {
         this.id = id;
@@ -45,5 +51,9 @@ public class SearchWord {
                 ", word='" + word + '\'' +
                 ", searchCount=" + searchCount +
                 '}';
+    }
+
+    public SearchWord increaseSearchCount() {
+        return new SearchWord(id, word, searchCount + 1);
     }
 }
