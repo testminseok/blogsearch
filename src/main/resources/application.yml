@@ -6,3 +6,18 @@ openapi:
     api:
       client-id: ${NAVER_API_CLIENT_ID}
       client-secret: ${NAVER_API_CLIENT_SECRET}
+
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    defer-datasource-initialization: true
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+  datasource:
+    url: jdbc:h2:mem:testdb
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
