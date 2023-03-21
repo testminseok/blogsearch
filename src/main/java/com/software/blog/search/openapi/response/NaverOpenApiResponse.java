@@ -19,11 +19,6 @@ public class NaverOpenApiResponse implements OpenApiResponse {
     private List<Blog> items;
 
     @Override
-    public OpenApiResponseHeader getDataHeader() {
-        return null;
-    }
-
-    @Override
     public List<Blog> getDataBody() {
         return items;
     }

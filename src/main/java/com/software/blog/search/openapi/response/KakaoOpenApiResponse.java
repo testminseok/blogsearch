@@ -15,11 +15,6 @@ public class KakaoOpenApiResponse implements OpenApiResponse {
     private List<Blog> documents;
 
     @Override
-    public OpenApiResponseHeader getDataHeader() {
-        return null;
-    }
-
-    @Override
     public List<Blog> getDataBody() {
         return documents;
     }
