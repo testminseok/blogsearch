@@ -10,6 +10,8 @@ import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.Optional;
+
 @Service("kakaoOpenApiService")
 public class KaKaoOpenApiService implements OpenApiService {
 
@@ -17,7 +19,7 @@ public class KaKaoOpenApiService implements OpenApiService {
     private String API_KEY;
 
     @Override
-    public OpenApiResponse search(String query, String sort, int page, int size) {
+    public Optional<OpenApiResponse> search(String query, String sort, int page, int size) {
         String url = "https://dapi.kakao.com/v2/search/blog?query={query}&sort={sort}&page={page}&size={size}";
         try {
             HttpHeaders headers = new HttpHeaders();
@@ -25,11 +27,19 @@ public class KaKaoOpenApiService implements OpenApiService {
 
             HttpEntity request = new HttpEntity(headers);
             RestTemplate restTemplate = new RestTemplate();
-            return restTemplate.exchange(url, HttpMethod.GET, request, KakaoOpenApiResponse.class, query, sort, page, size)
-                    .getBody();
+            return Optional.ofNullable(
+                    restTemplate.exchange(url,
+                                    HttpMethod.GET,
+                                    request,
+                                    KakaoOpenApiResponse.class,
+                                    query,
+                                    sort,
+                                    page,
+                                    size)
+                            .getBody());
         } catch (Exception e) {
             e.printStackTrace();
-            return null;
+            return Optional.empty();
         }
     }
 }

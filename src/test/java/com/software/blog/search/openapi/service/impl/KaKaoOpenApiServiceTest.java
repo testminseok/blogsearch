@@ -13,6 +13,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
+import java.util.Optional;
 
 class KaKaoOpenApiServiceTest {
 
@@ -26,7 +27,7 @@ class KaKaoOpenApiServiceTest {
 
         OpenApiService kakaoService = new KaKaoOpenApiService() {
             @Override
-            public OpenApiResponse search(String query, String sort, int page, int size) {
+            public Optional<OpenApiResponse> search(String query, String sort, int page, int size) {
                 String url = "https://dapi.kakao.com/v2/search/blog?query={query}&sort={sort}&page={page}&size={size}";
                 try {
                     HttpHeaders headers = new HttpHeaders();
@@ -34,21 +35,20 @@ class KaKaoOpenApiServiceTest {
 
                     HttpEntity request = new HttpEntity(headers);
                     RestTemplate restTemplate = new RestTemplate();
-                    return restTemplate.exchange(url, HttpMethod.GET, request, KakaoOpenApiResponse.class, query, sort, page, size)
-                            .getBody();
+                    return Optional.ofNullable(restTemplate.exchange(url, HttpMethod.GET, request, KakaoOpenApiResponse.class, query, sort, page, size)
+                            .getBody());
                 } catch (Exception e) {
                     e.printStackTrace();
                     return null;
                 }
             }
         };
-        OpenApiResponse response = kakaoService.search(query, sort, page, size);
+        Optional<OpenApiResponse> response = kakaoService.search(query, sort, page, size);
+        OpenApiResponse openApiResponse = response.orElse(null);
 
-        Assertions.assertThat(response).isNotNull();
+        Assertions.assertThat(openApiResponse).isNotNull();
 
-        List<Blog> blogList = response.getDataBody();
-
-        System.out.println(blogList);
+        List<Blog> blogList = openApiResponse.getDataBody();
 
         Assertions.assertThat(blogList).isNotNull();
         Assertions.assertThat(blogList.size()).isGreaterThan(0);

@@ -10,6 +10,8 @@ import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.Optional;
+
 @Service("naverOpenApiService")
 public class NaverOpenApiService implements OpenApiService {
 
@@ -20,20 +22,32 @@ public class NaverOpenApiService implements OpenApiService {
     private String CLIENT_SECRET;
 
     @Override
-    public OpenApiResponse search(String query, String sort, int page, int size) {
-        String url = "https://openapi.naver.com/v1/search/blog?query={query}&sort={sort}&display={display}&start={start}";
+    public Optional<OpenApiResponse> search(String query, String sort, int page, int size) {
+        String url = "https://openapi.naver.com/v1/search/blog?query={query}&sort={sort}&start={start}&display={display}";
         try {
+            int start = (page - 1) * size + 1;
+            int display = size;
+
             HttpHeaders headers = new HttpHeaders();
             headers.set("X-Naver-Client-Id", CLIENT_ID);
             headers.set("X-Naver-Client-Secret", CLIENT_SECRET);
 
             HttpEntity request = new HttpEntity(headers);
             RestTemplate restTemplate = new RestTemplate();
-            return restTemplate.exchange(url, HttpMethod.GET, request, NaverOpenApiResponse.class, query, sort, page, size)
-                    .getBody();
+            return Optional.ofNullable(
+                    restTemplate.exchange(
+                                    url,
+                                    HttpMethod.GET,
+                                    request,
+                                    NaverOpenApiResponse.class,
+                                    query,
+                                    sort,
+                                    start,
+                                    display)
+                            .getBody());
         }  catch (Exception e) {
             e.printStackTrace();
-            return null;
+            return Optional.empty();
         }
     }
 }
