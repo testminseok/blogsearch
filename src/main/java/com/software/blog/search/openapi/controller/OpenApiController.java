@@ -1,5 +1,6 @@
 package com.software.blog.search.openapi.controller;
 
+import com.software.blog.search.common.response.ApiResponse;
 import com.software.blog.search.openapi.contants.SortType;
 import com.software.blog.search.openapi.dto.Blogs;
 import com.software.blog.search.openapi.service.OpenApiService;
@@ -26,7 +27,7 @@ public class OpenApiController {
     private final SearchWordRepository searchWordRepository;
 
     @GetMapping("/search")
-    public Blogs search(String query, String sort, int page, int size) {
+    public ApiResponse<Blogs> search(String query, String sort, int page, int size) {
         SortType sortType = SortType.of(sort);
         // 검색어 검색횟수 증가
         searchWordService.findByWord(() -> searchWordRepository.findByWord(query))
@@ -42,7 +43,8 @@ public class OpenApiController {
                             }
                         });
 
-        return kakaoOpenApiService.search(query, sortType.getKakaoSortType(), page, size)
+        Blogs blogs = kakaoOpenApiService.search(query, sortType.getKakaoSortType(), page, size)
                 .orElseGet(() -> naverOpenApiService.search(query, sortType.getNaverSortType(), page, size).orElseThrow(RuntimeException::new)).getBlogs();
+        return ApiResponse.toOkResponseEntity(blogs);
     }
 }

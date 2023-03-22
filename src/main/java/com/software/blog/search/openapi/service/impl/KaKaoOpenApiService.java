@@ -9,6 +9,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Optional;
@@ -22,6 +23,9 @@ public class KaKaoOpenApiService implements OpenApiService {
 
     @Override
     public Optional<OpenApiResponse> search(String query, String sort, int page, int size) {
+        Assert.hasText(query, "query must not be empty");
+        Assert.hasText(sort, "sort must not be empty");
+
         String url = "https://dapi.kakao.com/v2/search/blog?query={query}&sort={sort}&page={page}&size={size}";
         try {
             HttpHeaders headers = new HttpHeaders();
