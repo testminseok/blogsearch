@@ -1,7 +1,7 @@
 package com.software.blog.search.openapi.response;
 
-import java.util.List;
+import com.software.blog.search.openapi.dto.Blogs;
 
 public interface OpenApiResponse {
-    List getDataBody();
+    Blogs getBlogs();
 }

@@ -1,8 +1,8 @@
 package com.software.blog.search.openapi.service.impl;
 
+import com.software.blog.search.openapi.dto.Blogs;
 import com.software.blog.search.openapi.response.KakaoOpenApiResponse;
 import com.software.blog.search.openapi.response.OpenApiResponse;
-import com.software.blog.search.openapi.response.entity.kakao.Blog;
 import com.software.blog.search.openapi.service.OpenApiService;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -12,7 +12,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.List;
 import java.util.Optional;
 
 class KaKaoOpenApiServiceTest {
@@ -48,9 +47,9 @@ class KaKaoOpenApiServiceTest {
 
         Assertions.assertThat(openApiResponse).isNotNull();
 
-        List<Blog> blogList = openApiResponse.getDataBody();
+        Blogs blogList = openApiResponse.getBlogs();
 
         Assertions.assertThat(blogList).isNotNull();
-        Assertions.assertThat(blogList.size()).isGreaterThan(0);
+        Assertions.assertThat(blogList.isEmpty()).isFalse();
     }
 }
