@@ -4,7 +4,7 @@
 ## 빌드 결과물
 
 아래 경로의 jar 파일 을 다운로드
-https://github.com/testminseok/blogsearch/blob/dev/src/main/resources/BlogSearchApp-0.0.1-SNAPSHOT.jar
+https://github.com/testminseok/blogsearch/blob/main/src/main/resources/BlogSearchApp-0.0.1-SNAPSHOT.jar
 
 ## 빌드 결과물 실행 환경변수
 openapi.kakao.api.key={카카오 api Rest key}
