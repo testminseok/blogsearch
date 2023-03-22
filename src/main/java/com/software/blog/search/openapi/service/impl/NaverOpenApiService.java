@@ -9,6 +9,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Optional;
@@ -25,6 +26,9 @@ public class NaverOpenApiService implements OpenApiService {
 
     @Override
     public Optional<OpenApiResponse> search(String query, String sort, int page, int size) {
+        Assert.hasText(query, "query must not be empty");
+        Assert.hasText(sort, "sort must not be empty");
+
         String url = "https://openapi.naver.com/v1/search/blog?query={query}&sort={sort}&start={start}&display={display}";
         try {
             int start = (page - 1) * size + 1;
