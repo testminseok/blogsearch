@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class Blog {
+public class KakaoBlog {
     private String title;
     private String contents;
     private String url;

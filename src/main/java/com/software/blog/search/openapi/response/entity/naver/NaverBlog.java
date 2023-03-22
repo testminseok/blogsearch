@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class Blog {
+public class NaverBlog {
     private String title;
     private String link;
     private String description;

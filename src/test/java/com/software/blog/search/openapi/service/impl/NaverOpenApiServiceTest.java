@@ -1,8 +1,8 @@
 package com.software.blog.search.openapi.service.impl;
 
+import com.software.blog.search.openapi.dto.Blogs;
 import com.software.blog.search.openapi.response.NaverOpenApiResponse;
 import com.software.blog.search.openapi.response.OpenApiResponse;
-import com.software.blog.search.openapi.response.entity.naver.Blog;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -11,7 +11,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.List;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
 class NaverOpenApiServiceTest {
@@ -48,9 +49,15 @@ class NaverOpenApiServiceTest {
 
         Assertions.assertThat(openApiResponse).isNotNull();
 
-        List<Blog> blogList = openApiResponse.getDataBody();
+        Blogs blogList = openApiResponse.getBlogs();
 
         Assertions.assertThat(blogList).isNotNull();
-        Assertions.assertThat(blogList.size()).isGreaterThan(0);
+        Assertions.assertThat(blogList.isEmpty()).isFalse();
+    }
+
+    @Test
+    void name() {
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+        System.out.println(LocalDateTime.parse("2023-03-16T17:35:59.000+09:00", dateTimeFormatter));
     }
 }
