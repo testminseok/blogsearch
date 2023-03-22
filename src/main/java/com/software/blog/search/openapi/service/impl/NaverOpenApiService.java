@@ -3,6 +3,7 @@ package com.software.blog.search.openapi.service.impl;
 import com.software.blog.search.openapi.response.NaverOpenApiResponse;
 import com.software.blog.search.openapi.response.OpenApiResponse;
 import com.software.blog.search.openapi.service.OpenApiService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -12,6 +13,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.Optional;
 
+@Slf4j
 @Service("naverOpenApiService")
 public class NaverOpenApiService implements OpenApiService {
 
@@ -46,7 +48,7 @@ public class NaverOpenApiService implements OpenApiService {
                                     display)
                             .getBody());
         }  catch (Exception e) {
-            e.printStackTrace();
+            log.error("NaverOpenApiService.search() error: {}", e.getMessage());
             return Optional.empty();
         }
     }
